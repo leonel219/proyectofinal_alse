@@ -1,0 +1,3 @@
+/home/alse/proyectofinal_alse/CMakeFiles/final_Alse.dir
+/home/alse/proyectofinal_alse/CMakeFiles/edit_cache.dir
+/home/alse/proyectofinal_alse/CMakeFiles/rebuild_cache.dir
