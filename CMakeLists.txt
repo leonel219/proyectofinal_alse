@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.10 )
 project( final_Alse )
-add_executable( ${PROJECT_NAME} main.cpp )
+add_executable( ${PROJECT_NAME} main.cpp conteomedidas.cpp conteomedidas.h sensor.h )
 add_executable(${PROJECT_NAME}_open "open_db.cpp" )
 add_executable(${PROJECT_NAME}_create "create_db.cpp" )
 add_executable(${PROJECT_NAME}_insert "insert_db.cpp" )

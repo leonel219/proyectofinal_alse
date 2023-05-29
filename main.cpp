@@ -2,8 +2,11 @@
 #include <fstream>
 #include <sstream>
 #include <ctime>
-#include <db_local.h>
-#include <db_local.cpp>
+#include "db_local.h"
+#include "db_local.cpp"
+#include "sensor.h"
+#include "conteomedidas.h"
+#include "conteomedidas.cpp"
 // Función para generar una marca de tiempo
 std::string getCurrentTimestamp() {
     std::time_t now = std::time(nullptr);
@@ -36,7 +39,6 @@ int main(int argc, char* argv[]) {
     // Ciclo principal para realizar las mediciones cada 5 segundos
     while (true) {
         // Simulación de obtención de valores de los sensores
-        // Aquí puedes implementar la lógica real para leer los datos de los sensores
         temperatura = -10.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (45.0f - (-10.0f))));
         humedad = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 100.0f));
         precipitacion = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 50.0f));
@@ -87,8 +89,7 @@ int main(int argc, char* argv[]) {
         }
         
         // Esperar 5 segundos antes de la próxima medición
-        // Ten en cuenta que esta no es una forma precisa de lograr el intervalo de tiempo deseado
-        // y podrías necesitar una lógica más precisa dependiendo del sistema operativo y otras consideraciones.
+
         std::this_thread::sleep_for(std::chrono::seconds(5));
     }
     

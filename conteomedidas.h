@@ -8,3 +8,4 @@ using namespace std;
 class  conteomedidas{
 public:
   friend ostream& operator<<(ostream& out, const conteomedidas &a );
+}
