@@ -2,7 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <ctime>
-
+#include <db_local.h>
+#include <db_local.cpp>
 // Función para generar una marca de tiempo
 std::string getCurrentTimestamp() {
     std::time_t now = std::time(nullptr);
@@ -27,58 +28,58 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    float temperature = 0.0f;
-    float humidity = 0.0f;
-    float precipitation = 0.0f;
-    float lightIntensity = 0.0f;
+    float temperatura = 0.0f;
+    float humedad = 0.0f;
+    float precipitacion = 0.0f;
+    float intensidadLuz = 0.0f;
     
     // Ciclo principal para realizar las mediciones cada 5 segundos
     while (true) {
         // Simulación de obtención de valores de los sensores
         // Aquí puedes implementar la lógica real para leer los datos de los sensores
-        temperature = -10.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (45.0f - (-10.0f))));
-        humidity = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 100.0f));
-        precipitation = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 50.0f));
-        lightIntensity = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2000.0f));
+        temperatura = -10.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (45.0f - (-10.0f))));
+        humedad = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 100.0f));
+        precipitacion = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 50.0f));
+        intensidadLuz = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 2000.0f));
         
         // Cálculo del promedio cada minuto
-        static int measurementCount = 0;
-        static float temperatureSum = 0.0f;
-        static float humiditySum = 0.0f;
-        static float precipitationSum = 0.0f;
-        static float lightIntensitySum = 0.0f;
+        static int conteomedidas = 0;
+        static float temperaturaSum = 0.0f;
+        static float humedadSum = 0.0f;
+        static float precipitacionSum = 0.0f;
+        static float intensidadLuzSum = 0.0f;
         
-        measurementCount++;
-        temperatureSum += temperature;
-        humiditySum += humidity;
-        precipitationSum += precipitation;
-        lightIntensitySum += lightIntensity;
+        conteomedidas++;
+        temperaturaSum += temperatura;
+        humedadSum += humedad;
+        precipitacionSum += precipitacion;
+        intensidadLuzSum += intensidadLuz;
         
-        if (measurementCount == 12) { // 12 mediciones x 5 segundos = 1 minuto
-            float temperatureAverage = temperatureSum / measurementCount;
-            float humidityAverage = humiditySum / measurementCount;
-            float precipitationAverage = precipitationSum / measurementCount;
-            float lightIntensityAverage = lightIntensitySum / measurementCount;
+        if (conteomedidas== 12) { // 12 mediciones x 5 segundos = 1 minuto
+            float temperaturaprom = temperaturaSum / conteomedidas;
+            float humedadprom = humedadSum / conteomedidas;
+            float precipitacionprom  = precipitacionSum / conteomedidas;
+            float intensidadLuzprom = intensidadLuzSum / conteomedidas;
             
             // Registro de los datos promedio en la base de datos
-            database << "Promedio - Temperatura: " << temperatureAverage
-                     << " - Humedad: " << humidityAverage
-                     << " - Precipitación: " << precipitationAverage
-                     << " - Intensidad de luz: " << lightIntensityAverage << std::endl;
+            database << "Promedio - Temperatura: " << temperaturaprom
+                     << " - Humedad: " << humedadprom
+                     << " - Precipitación: " << precipitacionprom
+                     << " - Intensidad de luz: " << intensidadLuzprom << std::endl;
             
             // Reiniciar los contadores y sumas
-            measurementCount = 0;
-            temperatureSum = 0.0f;
-            humiditySum = 0.0f;
-            precipitationSum = 0.0f;
-            lightIntensitySum = 0.0f;
+            conteomedidas = 0;
+            temperaturaSum = 0.0f;
+            humedadSum = 0.0f;
+            precipitacionSum = 0.0f;
+            intensidadLuzSum = 0.0f;
         }
         
         // Registro de la medición en la base de datos
-        database << "Medición - Temperatura: " << temperature
-                 << " - Humedad: " << humidity
-                 << " - Precipitación: " << precipitation
-                 << " - Intensidad de luz: " << lightIntensity << std::endl;
+        database << "Medición - Temperatura: " << temperatura
+                 << " - Humedad: " << humedad
+                 << " - Precipitación: " << precipitacion
+                 << " - Intensidad de luz: " << intensidadLuz << std::endl;
         
         // Registro de la fecha y hora de inicio de la ejecución
         if (measurementCount == 1) { // Solo registrar una vez por minuto
